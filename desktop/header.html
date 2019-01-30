@@ -5,8 +5,10 @@
   <input type='checkbox' class='bulk-select'>
 </td>
 {{/if}}
-
 <td class='main-link clearfix'>
+<a href="/users/{{topic.creator.username}}" data-auto-route="true" data-user-card="{{topic.creator.username}}">
+{{avatar topic.creator usernamePath="username" imageSize="medium"}}
+</a>
   {{raw "topic-status" topic=topic}}
   {{topic-link topic}}
   {{#if controller.showTopicPostBadges}}
@@ -19,20 +21,15 @@
      {{category-link topic.category}}
    {{/if}}
   {{~#if topic.creator ~}}
-  {{avatar topic.creator usernamePath="username" imageSize="medium"}}
   <a href="/users/{{topic.creator.username}}" data-auto-route="true" data-user-card="{{topic.creator.username}}">{{topic.creator.username}}</a> <a href={{topic.url}}>{{format-date topic.createdAt format="tiny"}}</a>
   {{~/if ~}}
    {{raw "list/action-list" topic=topic postNumbers=topic.liked_post_numbers className="likes" icon="heart"}}
    </div>
 </td>
-
-
-
-{{#if controller.showLikes}}
 <td class="num likes">
   {{number topic.like_count}} <i class='fa fa-heart'></i>
 </td>
-{{/if}}
+
 
 {{#if controller.showOpLikes}}
 <td class="num likes">
@@ -66,7 +63,7 @@
   {{raw "topic-list-header-column" order='default' name='topic.title' bulkSelectEnabled=bulkSelectEnabled showBulkToggle=toggleInTitle canBulkSelect=canBulkSelect}}
 
 
-  {{raw "topic-list-header-column" sortable='true' order='likes' number='true' forceName='Likes'}}
+     {{raw "topic-list-header-column" sortable='true' order='likes' number='true' forceName='Likes'}}
 
   {{#if showOpLikes}}
      {{raw "topic-list-header-column" sortable='true' order='op_likes' number='true' forceName='Likes'}}
@@ -76,12 +73,8 @@
 </script>
 
 <script>
-
 (function(){
-
 var TopicListItemView = require('discourse/components/topic-list-item').default;
-
-
 TopicListItemView.reopen({
     showCategory: function(){
         return !this.get('controller.hideCategory') &&
